@@ -38,15 +38,40 @@ while resi > epsi && counts < countMaxi
     x = x + delta_x;
     % update residual and count
     resi = norm(F_val);
-    counts = counts + 1;
+    counts = counts + 1;    
     % couldddddd display, not really needed.
     fprintf('Iteration %d: Residual = %e\n', counts, resi);
 end
+
 % Display solution
-%x = x - x0;
-%P5 = P5 - x0;
-disp('Solution vector x = ')
-disp(x)
-disp(P5)
-disp(P6)
-disp(['Residual after ', num2str(counts), ' iterations = ', num2str(resi)])
+disp('Solution to pressures are ')
+fprintf('P1 = %.5f\n', x(1));
+fprintf('P2 = %.5f\n', x(2));
+fprintf('P3 = %.5f\n', x(3));
+fprintf('P4 = %.5f\n', x(4));
+fprintf('P5 = %.5f\n', P5);
+fprintf('P6 = %.5f\n', P6);
+
+%This section is to find the Q's of the example capillary network
+
+%Q1 = pi*n/(3*n+1)*R(1,1)^((3*n+1)/n)*(P1-P2)/(2*L*K)^(1/n);
+%Q2 = pi*n/(3*n+1)*R(1,2)^((3*n+1)/n)*(P1-P2)/(2*L*K)^(1/n);
+%Calculate Q with Power-Law Model.
+Q1 = M(1).*(x(1)-x(2)).^(1/n);
+Q2 = M(2).*(x(2)-x(4)).^(1/n);
+Q3 = M(3).*(x(2)-x(3)).^(1/n);
+Q4 = M(4).*(x(4)-x(3)).^(1/n);
+Q5 = M(5).*(x(4)-P5).^(1/n);
+Q6 = M(6).*(x(3)-P5).^(1/n);
+Q7 = M(7).*(P5);
+disp('Solutions to Volumetric flow rates')
+fprintf('Q1 = %.5f\n', Q1);
+fprintf('Q2 = %.5f\n', Q2);
+fprintf('Q3 = %.5f\n', Q3);
+fprintf('Q4 = %.5f\n', Q4);
+fprintf('Q5 = %.5f\n', Q5);
+fprintf('Q6 = %.5f\n', Q6);
+fprintf('Q7 = %.5f\n', Q7);
+
+%disp(['Residual after ', num2str(counts), ' iterations = ',
+%num2str(resi)]) 55
